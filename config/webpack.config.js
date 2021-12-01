@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 const path = require("path");
 
 const rootFolder = process.cwd();
@@ -31,7 +32,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(rootFolder, 'public/index.html'),
             filename: "index.html"
-        })
+        }),
+        new WasmPackPlugin({
+            crateDirectory: rootFolder
+        }),
     ],
     devtool: "inline-source-map",
     devServer: {
@@ -41,5 +45,8 @@ module.exports = {
         static: path.join(rootFolder, 'dist'),
         historyApiFallback: true,
         open: true,
+    },
+    experiments: {
+        asyncWebAssembly: true
     }
 }
